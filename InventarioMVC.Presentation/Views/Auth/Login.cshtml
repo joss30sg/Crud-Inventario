@@ -80,6 +80,12 @@
             border-radius: 5px;
             margin-bottom: 20px;
         }
+        .invalid-feedback {
+            color: #721c24;
+            font-size: 0.85em;
+            margin-top: 5px;
+            display: block;
+        }
         .icon {
             color: #667eea;
             margin-right: 10px;
@@ -106,7 +112,7 @@
                     <i class="fas fa-envelope icon"></i>Email
                 </label>
                 <input type="email" name="email" id="email" class="form-control" placeholder="ejemplo@empresa.com" required>
-                <div class="invalid-feedback" id="emailError" style="display:none; color: #721c24;">
+                <div class="invalid-feedback" id="emailError" style="display:none;">
                     Por favor ingresa un email válido
                 </div>
             </div>
@@ -116,7 +122,7 @@
                     <i class="fas fa-lock icon"></i>Contraseña
                 </label>
                 <input type="password" name="password" id="password" class="form-control" placeholder="Ingresa tu contraseña" required>
-                <div class="invalid-feedback" id="passwordError" style="display:none; color: #721c24;">
+                <div class="invalid-feedback" id="passwordError" style="display:none;">
                     Por favor ingresa tu contraseña
                 </div>
             </div>
@@ -129,46 +135,65 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript">
-        (function() {
-            document.getElementById('loginForm').addEventListener('submit', function (e) {
-                const email = document.getElementById('email').value.trim();
-                const password = document.getElementById('password').value.trim();
-                let isValid = true;
-
-                if (!email) {
-                    document.getElementById('emailError').textContent = 'El email es requerido';
-                    document.getElementById('emailError').style.display = 'block';
-                    isValid = false;
-                } else if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-                    document.getElementById('emailError').textContent = 'Por favor ingresa un email válido';
-                    document.getElementById('emailError').style.display = 'block';
-                    isValid = false;
-                } else {
-                    document.getElementById('emailError').style.display = 'none';
-                }
-
-                if (!password) {
-                    document.getElementById('passwordError').textContent = 'La contraseña es requerida';
-                    document.getElementById('passwordError').style.display = 'block';
-                    isValid = false;
-                } else {
-                    document.getElementById('passwordError').style.display = 'none';
-                }
-
-                if (!isValid) {
-                    e.preventDefault();
-                }
-            });
-
-            document.getElementById('email').addEventListener('input', function () {
-                document.getElementById('emailError').style.display = 'none';
-            });
-
-            document.getElementById('password').addEventListener('input', function () {
-                document.getElementById('passwordError').style.display = 'none';
-            });
-        })();
-    </script>
 </body>
 </html>
+
+<script>
+function validateEmail(email) {
+    var parts = email.split('@');
+    if (parts.length !== 2) return false;
+    if (!parts[0] || !parts[1]) return false;
+    var domainParts = parts[1].split('.');
+    if (domainParts.length < 2) return false;
+    for (var i = 0; i < domainParts.length; i++) {
+        if (!domainParts[i]) return false;
+    }
+    return true;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var form = document.getElementById('loginForm');
+    var emailInput = document.getElementById('email');
+    var passwordInput = document.getElementById('password');
+    var emailError = document.getElementById('emailError');
+    var passwordError = document.getElementById('passwordError');
+
+    form.addEventListener('submit', function(e) {
+        var email = emailInput.value.trim();
+        var password = passwordInput.value.trim();
+        var isValid = true;
+
+        if (!email) {
+            emailError.textContent = 'El email es requerido';
+            emailError.style.display = 'block';
+            isValid = false;
+        } else if (!validateEmail(email)) {
+            emailError.textContent = 'Por favor ingresa un email válido';
+            emailError.style.display = 'block';
+            isValid = false;
+        } else {
+            emailError.style.display = 'none';
+        }
+
+        if (!password) {
+            passwordError.textContent = 'La contraseña es requerida';
+            passwordError.style.display = 'block';
+            isValid = false;
+        } else {
+            passwordError.style.display = 'none';
+        }
+
+        if (!isValid) {
+            e.preventDefault();
+        }
+    });
+
+    emailInput.addEventListener('input', function() {
+        emailError.style.display = 'none';
+    });
+
+    passwordInput.addEventListener('input', function() {
+        passwordError.style.display = 'none';
+    });
+});
+</script>
