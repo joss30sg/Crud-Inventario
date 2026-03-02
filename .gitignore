@@ -37,7 +37,7 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 
-# Database
+# Database (excluir solo archivos de BD, no el código)
 *.db
 *.sqlite
 *.sqlite3
@@ -45,7 +45,6 @@ artifacts/
 *.ldf
 *.mdf.bak
 LocalDB/
-Data/
 *.db-shm
 *.db-wal
 
