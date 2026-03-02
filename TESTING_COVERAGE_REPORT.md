@@ -309,8 +309,8 @@ Todas las queries usan FromSqlInterpolated() para seguridad paramétrica.
 Status: ✅ LISTA PARA EJECUTAR
 Scripts SQL:
   ✅ 01_Inventario.sql - Base de datos y tabla MOV_INVENTARIO
-  ✅ 02_MOV_INVENTARIO.sql - Esquema y contraints
-  ✅ 03_CRUD_MOV_INVENTARIO.sql - Cuatro Store Procedures
+  ✅ 02_CREATE_TABLE_MOV_INVENTARIO.sql - Esquema y contraints
+  ✅ 03_SP_CRUD_MOV_INVENTARIO.sql - Cuatro Store Procedures
 
 Validaciones:
   ✅ Tablas con claves primarias compuestas

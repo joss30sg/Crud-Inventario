@@ -41,8 +41,8 @@ cd "C:\Users\User\OneDrive\Desktop\Crud de Inventarios con ASP.NET MVC"
 
 # 3. Ejecuta los scripts SQL (en orden)
 sqlcmd -S localhost\SQLEXPRESS -i "Base de Datos\01_Inventario.sql"
-sqlcmd -S localhost\SQLEXPRESS -i "Base de Datos\02_MOV_INVENTARIO.sql"
-sqlcmd -S localhost\SQLEXPRESS -d inventario -i "Base de Datos\03_CRUD_MOV_INVENTARIO.sql"
+sqlcmd -S localhost\SQLEXPRESS -i "Base de Datos\02_CREATE_TABLE_MOV_INVENTARIO.sql"
+sqlcmd -S localhost\SQLEXPRESS -d inventario -i "Base de Datos\03_SP_CRUD_MOV_INVENTARIO.sql"
 
 # 4. Restaura dependencias NuGet
 dotnet restore
@@ -224,8 +224,8 @@ Crud de Inventarios con ASP.NET MVC/
 ├── 📁 InventarioMVC.Common/          # Utilidades compartidas
 ├── 📁 Base de Datos/                 # Scripts SQL
 │   ├── 01_Inventario.sql
-│   ├── 02_MOV_INVENTARIO.sql
-│   └── 03_CRUD_MOV_INVENTARIO.sql
+│   ├── 02_CREATE_TABLE_MOV_INVENTARIO.sql
+│   └── 03_SP_CRUD_MOV_INVENTARIO.sql
 ├── README.md                         # Este archivo
 └── ...
 ```
