@@ -135,65 +135,64 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function validateEmail(email) {
+            var parts = email.split('@');
+            if (parts.length !== 2) return false;
+            if (!parts[0] || !parts[1]) return false;
+            var domainParts = parts[1].split('.');
+            if (domainParts.length < 2) return false;
+            for (var i = 0; i < domainParts.length; i++) {
+                if (!domainParts[i]) return false;
+            }
+            return true;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var form = document.getElementById('loginForm');
+            var emailInput = document.getElementById('email');
+            var passwordInput = document.getElementById('password');
+            var emailError = document.getElementById('emailError');
+            var passwordError = document.getElementById('passwordError');
+
+            form.addEventListener('submit', function(e) {
+                var email = emailInput.value.trim();
+                var password = passwordInput.value.trim();
+                var isValid = true;
+
+                if (!email) {
+                    emailError.textContent = 'El email es requerido';
+                    emailError.style.display = 'block';
+                    isValid = false;
+                } else if (!validateEmail(email)) {
+                    emailError.textContent = 'Por favor ingresa un email válido';
+                    emailError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    emailError.style.display = 'none';
+                }
+
+                if (!password) {
+                    passwordError.textContent = 'La contraseña es requerida';
+                    passwordError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    passwordError.style.display = 'none';
+                }
+
+                if (!isValid) {
+                    e.preventDefault();
+                }
+            });
+
+            emailInput.addEventListener('input', function() {
+                emailError.style.display = 'none';
+            });
+
+            passwordInput.addEventListener('input', function() {
+                passwordError.style.display = 'none';
+            });
+        });
+    </script>
 </body>
 </html>
-
-<script>
-function validateEmail(email) {
-    var parts = email.split('@');
-    if (parts.length !== 2) return false;
-    if (!parts[0] || !parts[1]) return false;
-    var domainParts = parts[1].split('.');
-    if (domainParts.length < 2) return false;
-    for (var i = 0; i < domainParts.length; i++) {
-        if (!domainParts[i]) return false;
-    }
-    return true;
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    var form = document.getElementById('loginForm');
-    var emailInput = document.getElementById('email');
-    var passwordInput = document.getElementById('password');
-    var emailError = document.getElementById('emailError');
-    var passwordError = document.getElementById('passwordError');
-
-    form.addEventListener('submit', function(e) {
-        var email = emailInput.value.trim();
-        var password = passwordInput.value.trim();
-        var isValid = true;
-
-        if (!email) {
-            emailError.textContent = 'El email es requerido';
-            emailError.style.display = 'block';
-            isValid = false;
-        } else if (!validateEmail(email)) {
-            emailError.textContent = 'Por favor ingresa un email válido';
-            emailError.style.display = 'block';
-            isValid = false;
-        } else {
-            emailError.style.display = 'none';
-        }
-
-        if (!password) {
-            passwordError.textContent = 'La contraseña es requerida';
-            passwordError.style.display = 'block';
-            isValid = false;
-        } else {
-            passwordError.style.display = 'none';
-        }
-
-        if (!isValid) {
-            e.preventDefault();
-        }
-    });
-
-    emailInput.addEventListener('input', function() {
-        emailError.style.display = 'none';
-    });
-
-    passwordInput.addEventListener('input', function() {
-        passwordError.style.display = 'none';
-    });
-});
-</script>
