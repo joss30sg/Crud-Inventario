@@ -126,13 +126,16 @@
             </button>
         </form>
 
-        <script>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript">
+        (function() {
             document.getElementById('loginForm').addEventListener('submit', function (e) {
                 const email = document.getElementById('email').value.trim();
                 const password = document.getElementById('password').value.trim();
                 let isValid = true;
 
-                // Validar email
                 if (!email) {
                     document.getElementById('emailError').textContent = 'El email es requerido';
                     document.getElementById('emailError').style.display = 'block';
@@ -145,7 +148,6 @@
                     document.getElementById('emailError').style.display = 'none';
                 }
 
-                // Validar contraseña
                 if (!password) {
                     document.getElementById('passwordError').textContent = 'La contraseña es requerida';
                     document.getElementById('passwordError').style.display = 'block';
@@ -159,7 +161,6 @@
                 }
             });
 
-            // Limpiar errores cuando el usuario empieza a escribir
             document.getElementById('email').addEventListener('input', function () {
                 document.getElementById('emailError').style.display = 'none';
             });
@@ -167,9 +168,7 @@
             document.getElementById('password').addEventListener('input', function () {
                 document.getElementById('passwordError').style.display = 'none';
             });
-        </script>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        })();
+    </script>
 </body>
 </html>
