@@ -4,15 +4,26 @@ using System.Security.Claims;
 
 namespace InventarioMVC.Presentation.Controllers
 {
+    /// <summary>
+    /// Controlador de autenticación que gestiona el login y logout de usuarios.
+    /// </summary>
     public class AuthController : Controller
     {
         private readonly ILogger<AuthController> _logger;
 
+        /// <summary>
+        /// Constructor del controlador de autenticación.
+        /// </summary>
+        /// <param name="logger">Servicio de logging para registrar eventos de autenticación.</param>
         public AuthController(ILogger<AuthController> logger)
         {
             _logger = logger;
         }
 
+        /// <summary>
+        /// Obtiene la página de login. Si el usuario ya está autenticado, lo redirige al inventario.
+        /// </summary>
+        /// <returns>Vista de login o redirección al inventario si ya está autenticado.</returns>
         [HttpGet]
         public IActionResult Login()
         {
@@ -23,6 +34,13 @@ namespace InventarioMVC.Presentation.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Procesa el login del usuario. Valida las credenciales y crea una sesión autenticada.
+        /// Después de un tiempo aleatorio entre 30 y 90 segundos, cierra la sesión automáticamente.
+        /// </summary>
+        /// <param name="email">Email del usuario.</param>
+        /// <param name="password">Contraseña del usuario.</param>
+        /// <returns>Redirección al inventario si el login es exitoso, o vuelve a la vista de login si falla.</returns>
         [HttpPost]
         public async Task<IActionResult> Login(string email, string password)
         {
@@ -63,6 +81,10 @@ namespace InventarioMVC.Presentation.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Cierra la sesión del usuario autenticado y lo redirige a la página de login.
+        /// </summary>
+        /// <returns>Redirección a la página de login.</returns>
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
@@ -71,6 +93,10 @@ namespace InventarioMVC.Presentation.Controllers
             return RedirectToAction("Login", "Auth");
         }
 
+        /// <summary>
+        /// Muestra la página de acceso denegado cuando un usuario no tiene permisos.
+        /// </summary>
+        /// <returns>Vista de acceso denegado.</returns>
         public IActionResult AccessDenied()
         {
             return View();
