@@ -1,0 +1,480 @@
+@model InventarioMVC.Application.DTOs.PaginatedDTO<InventarioMVC.Application.DTOs.MostrarMovInventarioDTO>
+
+@{
+    ViewData["Title"] = "Gestionar Movimientos de Inventario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Encabezado Principal -->
+<div class="mb-5">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="display-6 fw-bold text-dark mb-2">
+                <i class="fas fa-cube text-primary"></i> Movimientos de Inventario
+            </h1>
+            <p class="text-muted fs-5">Administra las operaciones de inventario: Consultar, Crear, Editar y Eliminar movimientos</p>
+        </div>
+        <a href="@Url.Action("Create")" class="btn btn-lg btn-success shadow-sm">
+            <i class="fas fa-plus-circle"></i> Crear Movimiento
+        </a>
+    </div>
+</div>
+
+<!-- Panel de Operaciones CRUD -->
+<div class="row g-3 mb-5">
+    <div class="col-lg-3 col-md-6">
+        <div class="card h-100 border-0 shadow-sm text-center crud-card crud-read">
+            <div class="card-body py-4">
+                <div class="crud-icon mb-3">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h5 class="card-title fw-bold">CONSULTAR</h5>
+                <p class="text-muted small mb-0">Ver y buscar movimientos existentes</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="card h-100 border-0 shadow-sm text-center crud-card crud-create">
+            <div class="card-body py-4">
+                <div class="crud-icon mb-3">
+                    <i class="fas fa-file-circle-plus"></i>
+                </div>
+                <h5 class="card-title fw-bold">CREAR</h5>
+                <p class="text-muted small mb-0">Registrar nuevo movimiento</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="card h-100 border-0 shadow-sm text-center crud-card crud-update">
+            <div class="card-body py-4">
+                <div class="crud-icon mb-3">
+                    <i class="fas fa-pen-to-square"></i>
+                </div>
+                <h5 class="card-title fw-bold">ACTUALIZAR</h5>
+                <p class="text-muted small mb-0">Modificar movimiento existente</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="card h-100 border-0 shadow-sm text-center crud-card crud-delete">
+            <div class="card-body py-4">
+                <div class="crud-icon mb-3">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
+                <h5 class="card-title fw-bold">ELIMINAR</h5>
+                <p class="text-muted small mb-0">Remover movimiento de la BD</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Panel de Búsqueda y Filtros -->
+<div class="card border-0 shadow-sm mb-5">
+    <div class="card-header bg-light border-bottom">
+        <h6 class="card-title mb-0 fw-bold">
+            <i class="fas fa-filter text-primary"></i> Búsqueda y Filtros
+        </h6>
+    </div>
+    <div class="card-body">
+        <form method="get" class="row g-3" autocomplete="off">
+            <div class="col-lg-5 col-md-6">
+                <label class="form-label fw-semibold small">Buscar Documento o Producto</label>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text bg-white border-end-0">
+                        <i class="fas fa-search text-muted"></i>
+                    </span>
+                    <input type="text" name="searchTerm" class="form-control border-start-0" 
+                           placeholder="Ej: FAC-001, ITEM-123" 
+                           value="@ViewData["SearchTerm"]">
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <label class="form-label fw-semibold small">Tipo de Movimiento</label>
+                <select name="filterTipo" class="form-select form-select-lg">
+                    <option value="">📋 Todos los tipos</option>
+                    @{
+                        var filterTipo = ViewData["FilterTipo"]?.ToString() ?? "";
+                    }
+                    @if (filterTipo == "EN")
+                    {
+                        <option value="EN" selected>📥 Entrada (Compra)</option>
+                    }
+                    else
+                    {
+                        <option value="EN">📥 Entrada (Compra)</option>
+                    }
+                    @if (filterTipo == "SA")
+                    {
+                        <option value="SA" selected>📤 Salida (Venta)</option>
+                    }
+                    else
+                    {
+                        <option value="SA">📤 Salida (Venta)</option>
+                    }
+                    @if (filterTipo == "TR")
+                    {
+                        <option value="TR" selected>↔️ Traslado (Almacén)</option>
+                    }
+                    else
+                    {
+                        <option value="TR">↔️ Traslado (Almacén)</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-lg-3 col-md-12">
+                <label class="form-label fw-semibold small">&nbsp;</label>
+                <button type="submit" class="btn btn-primary btn-lg w-100">
+                    <i class="fas fa-search"></i> Buscar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Lista de Movimientos -->
+@if (Model.Items.Any())
+{
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-light border-bottom py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <h6 class="card-title mb-0 fw-bold">
+                    <i class="fas fa-list text-primary"></i> Listado de Movimientos
+                </h6>
+                <span class="badge bg-primary rounded-pill fs-6">@Model.TotalItems registros</span>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light fw-bold border-bottom">
+                    <tr>
+                        <th width="10%"><i class="fas fa-file"></i> Documento</th>
+                        <th width="12%"><i class="fas fa-cube"></i> Producto</th>
+                        <th width="12%" class="text-center"><i class="fas fa-arrows-alt-h"></i> Tipo</th>
+                        <th width="11%"><i class="fas fa-warehouse"></i> Almacén</th>
+                        <th width="10%" class="text-end"><i class="fas fa-weight"></i> Cantidad</th>
+                        <th width="12%"><i class="fas fa-calendar"></i> Fecha</th>
+                        <th width="33%" class="text-center"><i class="fas fa-cogs"></i> Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr class="align-middle">
+                            <td>
+                                <span class="badge bg-primary-light fw-bold">
+                                    @item.NroDocumento
+                                </span>
+                            </td>
+                            <td>
+                                <code>@item.CodItem2</code>
+                            </td>
+                            <td class="text-center">
+                                @{
+                                    var tipoClass = item.TipoMovimiento == "EN" ? "success" :
+                                                   item.TipoMovimiento == "SA" ? "danger" : "warning";
+                                    var tipoIcon = item.TipoMovimiento == "EN" ? "arrow-down" :
+                                                  item.TipoMovimiento == "SA" ? "arrow-up" : "exchange-alt";
+                                    var tipoText = item.TipoMovimiento == "EN" ? "Entrada" :
+                                                  item.TipoMovimiento == "SA" ? "Salida" : "Traslado";
+                                }
+                                <span class="badge bg-@tipoClass">
+                                    <i class="fas fa-@tipoIcon"></i> @tipoText
+                                </span>
+                            </td>
+                            <td>
+                                <small class="text-muted">@item.AlmacenVenta</small>
+                            </td>
+                            <td class="text-end">
+                                <strong>@item.Cantidad.ToString("N2")</strong>
+                            </td>
+                            <td>
+                                <small>@item.FechaMovimiento.ToString("dd/MMM/yyyy")</small>
+                            </td>
+                            <td class="text-center">
+                                <div class="d-flex gap-2 justify-content-center flex-wrap">
+                                    <a href="@Url.Action("Details", new { item.CodCia, item.CompaniaVenta3, item.AlmacenVenta, item.TipoMovimiento, item.TipoDocumento, item.NroDocumento, item.CodItem2 })" 
+                                       class="btn btn-sm btn-outline-info" 
+                                       title="Ver detalles">
+                                        <i class="fas fa-eye"></i> Ver
+                                    </a>
+                                    <a href="@Url.Action("Edit", new { item.CodCia, item.CompaniaVenta3, item.AlmacenVenta, item.TipoMovimiento, item.TipoDocumento, item.NroDocumento, item.CodItem2 })" 
+                                       class="btn btn-sm btn-outline-warning" 
+                                       title="Editar">
+                                        <i class="fas fa-edit"></i> Editar
+                                    </a>
+                                    <a href="@Url.Action("Delete", new { item.CodCia, item.CompaniaVenta3, item.AlmacenVenta, item.TipoMovimiento, item.TipoDocumento, item.NroDocumento, item.CodItem2 })" 
+                                       class="btn btn-sm btn-outline-danger" 
+                                       title="Eliminar">
+                                        <i class="fas fa-trash"></i> Eliminar
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Paginación -->
+    @if (Model.TotalPages > 1)
+    {
+        <nav class="mt-5 mb-5" aria-label="Paginación">
+            <ul class="pagination justify-content-center shadow-sm rounded-3 p-3 bg-light">
+                @if (Model.HasPreviousPage)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { pageNumber = 1, searchTerm = ViewData["SearchTerm"], filterTipo = ViewData["FilterTipo"] })">
+                            <i class="fas fa-step-backward"></i> Primera
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { pageNumber = Model.CurrentPage - 1, searchTerm = ViewData["SearchTerm"], filterTipo = ViewData["FilterTipo"] })">
+                            <i class="fas fa-chevron-left"></i> Anterior
+                        </a>
+                    </li>
+                }
+
+                @for (int i = Math.Max(1, Model.CurrentPage - 2); i <= Math.Min(Model.TotalPages, Model.CurrentPage + 2); i++)
+                {
+                    @if (i == Model.CurrentPage)
+                    {
+                        <li class="page-item active">
+                            <span class="page-link">@i</span>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="@Url.Action("Index", new { pageNumber = i, searchTerm = ViewData["SearchTerm"], filterTipo = ViewData["FilterTipo"] })">@i</a>
+                        </li>
+                    }
+                }
+
+                @if (Model.HasNextPage)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { pageNumber = Model.CurrentPage + 1, searchTerm = ViewData["SearchTerm"], filterTipo = ViewData["FilterTipo"] })">
+                            Siguiente <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { pageNumber = Model.TotalPages, searchTerm = ViewData["SearchTerm"], filterTipo = ViewData["FilterTipo"] })">
+                            Última <i class="fas fa-step-forward"></i>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </nav>
+        <p class="text-center text-muted">
+            Página <strong>@Model.CurrentPage</strong> de <strong>@Model.TotalPages</strong> 
+            | Total: <strong>@Model.TotalItems</strong> movimientos
+        </p>
+    }
+}
+else
+{
+    <div class="alert alert-info shadow-sm border-0" role="alert">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-info-circle me-3" style="font-size: 1.5rem;"></i>
+            <div>
+                <h5 class="alert-heading mb-1">No hay movimientos registrados</h5>
+                <p class="mb-0">La base de datos está vacía. Comienza creando tu primer movimiento haciendo clic en el botón "Crear Movimiento".</p>
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+    /* ===== Estilos CRUD Cards ===== */
+    .crud-card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-top: 4px solid;
+    }
+
+    .crud-card .crud-icon {
+        font-size: 3rem;
+        transition: all 0.3s ease;
+    }
+
+    .crud-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .crud-card:hover .crud-icon {
+        transform: scale(1.2);
+    }
+
+    .crud-read {
+        border-top-color: #198754;
+    }
+
+    .crud-read .crud-icon {
+        color: #198754;
+    }
+
+    .crud-read:hover {
+        background-color: rgba(25, 135, 84, 0.05);
+    }
+
+    .crud-create {
+        border-top-color: #0dcaf0;
+    }
+
+    .crud-create .crud-icon {
+        color: #0dcaf0;
+    }
+
+    .crud-create:hover {
+        background-color: rgba(13, 202, 240, 0.05);
+    }
+
+    .crud-update {
+        border-top-color: #ffc107;
+    }
+
+    .crud-update .crud-icon {
+        color: #ffc107;
+    }
+
+    .crud-update:hover {
+        background-color: rgba(255, 193, 7, 0.05);
+    }
+
+    .crud-delete {
+        border-top-color: #dc3545;
+    }
+
+    .crud-delete .crud-icon {
+        color: #dc3545;
+    }
+
+    .crud-delete:hover {
+        background-color: rgba(220, 53, 69, 0.05);
+    }
+
+    /* ===== Tabla ===== */
+    .table tbody tr {
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+
+    .table-hover tbody tr:last-child:hover {
+        border-bottom-color: #dee2e6;
+    }
+
+    .badge.bg-primary-light {
+        background-color: rgba(13, 110, 253, 0.15) !important;
+        color: #0d6efd;
+    }
+
+    /* ===== Botones ===== */
+    .btn-group-sm .btn {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.85rem;
+    }
+
+    .btn-success {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        border: none;
+    }
+
+    .btn-success:hover {
+        background: linear-gradient(135deg, #218838 0%, #1aa179 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 0.5rem 1rem rgba(40, 167, 69, 0.3);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #0b5ed7 0%, #0abe5c 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 0.5rem 1rem rgba(13, 110, 253, 0.3);
+    }
+
+    /* ===== Tarjetas (Cards) ===== */
+    .card {
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .card-header {
+        border-radius: 0.5rem 0.5rem 0 0;
+    }
+
+    /* ===== Alertas ===== */
+    .alert {
+        border-radius: 0.5rem;
+        border: none;
+    }
+
+    /* ===== Paginación ===== */
+    .pagination {
+        border-radius: 2rem;
+    }
+
+    .page-link {
+        border-radius: 0.3rem;
+        border: none;
+        color: #0d6efd;
+        transition: all 0.2s ease;
+    }
+
+    .page-link:hover {
+        background-color: #e9ecef;
+        color: #0d6efd;
+    }
+
+    .page-item.active .page-link {
+        background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+        border-color: transparent;
+    }
+
+    /* ===== Responsividad ===== */
+    @@media (max-width: 768px) {
+        .display-6 {
+            font-size: 1.5rem;
+        }
+
+        .btn-lg {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .table {
+            font-size: 0.85rem;
+        }
+
+        .btn-group-sm .btn {
+            padding: 0.3rem 0.4rem;
+            font-size: 0.75rem;
+        }
+    }
+
+    /* ===== Otros ===== */
+    code {
+        background-color: #f8f9fa;
+        color: #d63384;
+        padding: 0.2rem 0.4rem;
+        border-radius: 0.25rem;
+        font-size: 0.85em;
+    }
+
+    .bg-light {
+        background-color: #f8f9fa !important;
+    }
+</style>

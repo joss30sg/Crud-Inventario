@@ -1,0 +1,67 @@
+@model InventarioMVC.Application.DTOs.MostrarMovInventarioDTO
+
+@{
+    ViewData["Title"] = "Eliminar Movimiento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row mb-4">
+    <div class="col">
+        <h2><i class="fas fa-trash"></i> Confirmar Eliminación</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <i class="fas fa-exclamation-triangle"></i> ¡Atención!
+            </div>
+            <div class="card-body">
+                <div class="alert alert-danger">
+                    Esta acción es <strong>irreversible</strong>. El movimiento será eliminado permanentemente.
+                </div>
+
+                <dl class="row">
+                    <dt class="col-sm-4">Documento:</dt>
+                    <dd class="col-sm-8"><strong>@Model.NroDocumento</strong></dd>
+
+                    <dt class="col-sm-4">Producto:</dt>
+                    <dd class="col-sm-8"><strong>@Model.CodItem2</strong></dd>
+
+                    <dt class="col-sm-4">Tipo:</dt>
+                    <dd class="col-sm-8"><span class="badge bg-secondary">@Model.DescripcionTipo</span></dd>
+
+                    <dt class="col-sm-4">Almacén:</dt>
+                    <dd class="col-sm-8">@Model.AlmacenVenta</dd>
+
+                    <dt class="col-sm-4">Cantidad:</dt>
+                    <dd class="col-sm-8">@Model.Cantidad.ToString("F2")</dd>
+
+                    @*<dt class="col-sm-4">Comprador:</dt>
+                    <dd class="col-sm-8">@(Model.Comprador ?? "-")</dd>*@
+                </dl>
+
+                <div class="mt-4">
+                    <form method="post" asp-action="Delete" style="display:inline;">
+                        <!-- Parámetros ocultos necesarios para la eliminación -->
+                        <input type="hidden" name="codCia" value="@Model.CodCia">
+                        <input type="hidden" name="companiaVenta3" value="@Model.CompaniaVenta3">
+                        <input type="hidden" name="almacenVenta" value="@Model.AlmacenVenta">
+                        <input type="hidden" name="tipoMovimiento" value="@Model.TipoMovimiento">
+                        <input type="hidden" name="tipoDocumento" value="@Model.TipoDocumento">
+                        <input type="hidden" name="nroDocumento" value="@Model.NroDocumento">
+                        <input type="hidden" name="codItem2" value="@Model.CodItem2">
+                        
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-check"></i> Sí, Eliminar
+                        </button>
+                    </form>
+                    <a href="@Url.Action("Index")" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Cancelar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

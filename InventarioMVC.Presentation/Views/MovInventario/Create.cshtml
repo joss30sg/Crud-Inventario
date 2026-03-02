@@ -1,0 +1,132 @@
+@model InventarioMVC.Application.DTOs.CrearMovInventarioDTO
+
+@{
+    ViewData["Title"] = "Crear Movimiento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row mb-4">
+    <div class="col">
+        <h2><i class="fas fa-plus"></i> Crear Movimiento</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">Información del Movimiento</div>
+            <div class="card-body">
+                <form method="post" asp-action="Create">
+                    <div asp-validation-summary="All" class="alert alert-danger"></div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="CodCia" class="form-label">Código Compañía <span class="text-danger">*</span></label>
+                                <input asp-for="CodCia" class="form-control" required>
+                                <span asp-validation-for="CodCia" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="CompaniaVenta3" class="form-label">Compañía Venta <span class="text-danger">*</span></label>
+                                <input asp-for="CompaniaVenta3" class="form-control" required>
+                                <span asp-validation-for="CompaniaVenta3" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="AlmacenVenta" class="form-label">Almacén Origen <span class="text-danger">*</span></label>
+                                <input asp-for="AlmacenVenta" class="form-control" required>
+                                <span asp-validation-for="AlmacenVenta" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="TipoMovimiento" class="form-label">Tipo Movimiento <span class="text-danger">*</span></label>
+                                <select asp-for="TipoMovimiento" class="form-select" required>
+                                    <option value="">-- Selecciona --</option>
+                                    <option value="EN">EN - Entrada</option>
+                                    <option value="SA">SA - Salida</option>
+                                    <option value="TR">TR - Traslado</option>
+                                </select>
+                                <span asp-validation-for="TipoMovimiento" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="TipoDocumento" class="form-label">Tipo Documento <span class="text-danger">*</span></label>
+                                <select asp-for="TipoDocumento" class="form-select" required>
+                                    <option value="">-- Selecciona --</option>
+                                    <option value="01">01 - Factura</option>
+                                    <option value="02">02 - Nota Crédito</option>
+                                    <option value="03">03 - Remisión</option>
+                                    <option value="04">04 - Guía</option>
+                                    <option value="05">05 - Comprobante</option>
+                                </select>
+                                <span asp-validation-for="TipoDocumento" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="NroDocumento" class="form-label">Nº Documento <span class="text-danger">*</span></label>
+                                <input asp-for="NroDocumento" class="form-control" required>
+                                <span asp-validation-for="NroDocumento" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="CodItem2" class="form-label">Código Producto <span class="text-danger">*</span></label>
+                                <input asp-for="CodItem2" class="form-control" required>
+                                <span asp-validation-for="CodItem2" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Cantidad" class="form-label">Cantidad <span class="text-danger">*</span></label>
+                                <input asp-for="Cantidad" type="number" class="form-control" min="1" step="1" required>
+                                <span asp-validation-for="Cantidad" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Comprador" class="form-label">Comprador</label>
+                                <input asp-for="Comprador" class="form-control">
+                                <span asp-validation-for="Comprador" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>*@
+
+                    <div class="mb-3">
+                        <label asp-for="FechaMovimiento" class="form-label">Fecha Movimiento</label>
+                        <input asp-for="FechaMovimiento" type="datetime-local" class="form-control">
+                        <small class="text-muted">Si no se especifica, se usará la fecha actual</small>
+                        <span asp-validation-for="FechaMovimiento" class="text-danger small"></span>
+                    </div>
+
+                    <hr>
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Guardar
+                        </button>
+                        <a href="@Url.Action("Index")" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

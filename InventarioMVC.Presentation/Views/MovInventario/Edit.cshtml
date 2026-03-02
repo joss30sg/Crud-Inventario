@@ -1,0 +1,97 @@
+@model InventarioMVC.Application.DTOs.ActualizarMovInventarioDTO
+
+@{
+    ViewData["Title"] = "Editar Movimiento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row mb-4">
+    <div class="col">
+        <h2><i class="fas fa-edit"></i> Editar Movimiento</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">Información del Movimiento</div>
+            <div class="card-body">
+                <form method="post" asp-action="Edit">
+                    <!-- Campos Ocultos para Claves Primarias (sin input visible) -->
+                    <input type="hidden" asp-for="CodCia">
+                    <input type="hidden" asp-for="CompaniaVenta3">
+                    <input type="hidden" asp-for="AlmacenVenta">
+                    <input type="hidden" asp-for="TipoMovimiento">
+                    <input type="hidden" asp-for="TipoDocumento">
+
+                    <!-- Claves Primarias (Visible pero no editable) -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="NroDocumento" class="form-label">Nº Documento</label>
+                                <input asp-for="NroDocumento" class="form-control" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="CodItem2" class="form-label">Código Producto</label>
+                                <input asp-for="CodItem2" class="form-control" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Campos Editables -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Cantidad" class="form-label">Cantidad <span class="text-danger">*</span></label>
+                                <input asp-for="Cantidad" type="number" class="form-control" min="1" step="1" required>
+                                <span asp-validation-for="Cantidad" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="FechaMovimiento" class="form-label">Fecha Movimiento</label>
+                                <input asp-for="FechaMovimiento" type="datetime-local" class="form-control">
+                                <span asp-validation-for="FechaMovimiento" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Proveedor" class="form-label">Proveedor</label>
+                                <input asp-for="Proveedor" class="form-control">
+                                <span asp-validation-for="Proveedor" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="AlmacenDestino" class="form-label">Almacén Destino</label>
+                                <input asp-for="AlmacenDestino" class="form-control">
+                                <span asp-validation-for="AlmacenDestino" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Guardar Cambios
+                        </button>
+                        <a href="@Url.Action("Index")" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Volver
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

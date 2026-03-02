@@ -1,605 +1,311 @@
-# 🚀 Sistema de Gestión de Pedidos - Fullstack Senior
+﻿# 🚀 Sistema de Gestión de Inventario
 
-**Solución Fullstack profesional para gestión de pedidos con autenticación JWT, arquitectura limpia y seguridad empresarial**
+**Aplicación ASP.NET Core 8.0 MVC con arquitectura de capas para gestión de movimientos de inventario**
 
-## 📋 Descripción General
+## 📋 Descripción
 
-Aplicación Fullstack moderna que proporciona capacidades completas de gestión de pedidos:
+Sistema profesional de gestión de inventario que permite realizar operaciones CRUD completas:
+- ✅ **Consultar (READ)** - Ver y buscar movimientos existentes
+- ✅ **Crear (CREATE)** - Registrar nuevo movimiento
+- ✅ **Actualizar (UPDATE)** - Modificar movimiento existente
+- ✅ **Eliminar (DELETE)** - Remover movimiento de la BD
 
-- ✅ Registro e inicio de sesión seguro con JWT Bearer tokens
-- ✅ Operaciones CRUD completas de pedidos (Crear, Leer, Actualizar, Eliminar)
-- ✅ Gestión de artículos dentro de cada pedido
-- ✅ Gestión del estado de pedidos (Pendiente → Entregado)
-- ✅ Control de acceso basado en roles (Admin, Usuario)
-- ✅ Arquitectura limpia con separación de responsabilidades
-- ✅ Patrones de resiliencia y mecanismos de reintentos automáticos
-- ✅ Validación robusta y logging estructurado
-- ✅ UI profesional con React + TypeScript
-- ✅ Diseño responsivo y estilos modernos
+## 🛠️ Requisitos Previos
 
----
+Antes de ejecutar la aplicación, asegúrate de tener instalado:
 
-## 🏗️ Stack Tecnológico
+| Componente | Versión | Función |
+|-----------|---------|---------|
+| **.NET SDK** | 8.0 o superior | Compilar y ejecutar la aplicación |
+| **SQL Server Express** | Cualquier versión | Base de datos |
+| **PowerShell** | 5.1+ | Ejecutar scripts |
 
-### Backend
-- **Framework:** ASP.NET Core 8.0
-- **ORM:** Entity Framework Core 8.0
-- **Base de Datos:** SQL Server Express (localhost\SQLEXPRESS)
-- **Autenticación:** JWT Bearer Tokens (expiración 60 minutos)
-- **Validación:** FluentValidation
-- **Mapeo:** AutoMapper
-- **Logging:** Serilog
-- **Arquitectura:** Clean Architecture con principios SOLID
-- **Documentación API:** Swagger/OpenAPI
-
-### Frontend
-- **Framework:** React 18+
-- **Lenguaje:** TypeScript 5+
-- **Bundler:** Vite 5.4+
-- **Cliente HTTP:** Axios
-- **Routing:** React Router v6
-- **Estilos:** CSS3 con componentes modernos
-- **Testing:** Vitest + React Testing Library
-
-### Base de Datos
-- **Servidor:** SQL Server Express (localhost\SQLEXPRESS)
-- **Nombre BD:** OrderManagementDB
-- **Tablas:** Users, Orders, OrderItems
-- **Automática:** Migraciones aplicadas en la primera ejecución
-
----
-
-## ⚡ Inicio Rápido (5 minutos)
-
-### Requisitos Previos
-- SDK de .NET 8.0 instalado
-- Node.js 18+ y npm instalados
-- SQL Server Express instalado localmente
-- Git instalado
-
-### 🚀 Configuración Backend
+### Verificar Instalación
 
 ```powershell
-# Navegar a la carpeta backend
-cd backend
-
-# Restaurar paquetes NuGet
-dotnet restore
-
-# Compilar el proyecto
-dotnet build
-
-# Ejecutar la aplicación
-dotnet run --project OrderManagementAPI.Api
-
-# ✅ Backend ejecutándose en: http://localhost:5000
-# 📚 Swagger UI: http://localhost:5000/swagger
-```
-
-### 🚀 Configuración Frontend
-
-```powershell
-# Navegar a la carpeta frontend (en una nueva terminal)
-cd frontend
-
-# Instalar paquetes npm
-npm install
-
-# Iniciar servidor de desarrollo
-npm run dev
-
-# ✅ Frontend ejecutándose en: http://localhost:3000
-```
-
-### 🔐 Credenciales de Admin Predeterminadas
-
-```
-Usuario:    admin
-Contraseña: Admin@123
-Rol:        Administrador
-```
-
----
-
-## � Guía Detallada de Ejecución
-
-### Opción 1: Ejecución Manual (Recomendado para Desarrollo)
-
-#### Paso 1: Preparar la Base de Datos
-```powershell
-# Verificar que SQL Server Express está ejecutándose
-sqlcmd -S localhost\SQLEXPRESS -Q "SELECT @@VERSION"
-
-# Si no existe la base de datos, se creará automáticamente
-```
-
-#### Paso 2: Ejecutar Backend (Terminal 1)
-```powershell
-# Navegar a la carpeta del proyecto
-cd "c:\ruta\al\proyecto"
-
-# Ir a la carpeta backend
-cd backend
-
-# Restaurar dependencias
-dotnet restore
-
-# Compilar el proyecto
-dotnet clean
-dotnet build
-
-# Ejecutar la aplicación
-dotnet run --project OrderManagementAPI.Api
-
-# Esperado: "Application started" en la consola
-# Backend disponible en: http://localhost:5000
-# Swagger UI: http://localhost:5000/swagger
-```
-
-#### Paso 3: Ejecutar Frontend (Terminal 2)
-```powershell
-# En una NUEVA terminal de PowerShell/CMD
-
-# Navegar al proyecto
-cd "c:\ruta\al\proyecto"
-
-# Ir a la carpeta frontend
-cd frontend
-
-# Instalar dependencias (solo la primera vez)
-npm install
-
-# Iniciar servidor de desarrollo
-npm run dev
-
-# Esperado: "VITE v5.x.x ready in XXX ms"
-# Frontend disponible en: http://localhost:3000
-```
-
-#### Paso 4: Acceder a la Aplicación
-```
-1. Abre tu navegador en: http://localhost:3000
-2. Usa las credenciales de admin:
-   - Usuario: admin
-   - Contraseña: Admin@123
-3. ¡Listo! Puedes navegar y usar la aplicación
-```
-
----
-
-### Opción 2: Ejecución Usando Scripts PowerShell
-
-Se incluyen scripts para automatizar la ejecución complete:
-
-```powershell
-# Script para ejecutar todo automáticamente
-.\RUN_TESTS.ps1
-
-# O ejecutar manualmente:
-# Script para tests del backend
-.\Scripts\test-backend.ps1
-
-# Script para tests del frontend
-.\Scripts\test-frontend.ps1
-```
-
----
-
-### Opción 3: Detener la Aplicación
-
-Si necesitas detener los servidores:
-
-```powershell
-# Matar procesos de .NET
-Get-Process -Name dotnet -ErrorAction SilentlyContinue | Stop-Process -Force
-
-# Matar procesos de Node.js
-Get-Process -Name node -ErrorAction SilentlyContinue | Stop-Process -Force
-
-# Verificar que se detuvo
-Get-Process -Name dotnet, node -ErrorAction SilentlyContinue
-```
-
----
-
-### Verificación de Puertos
-
-Asegúrate de que los puertos requeridos estén disponibles:
-
-```powershell
-# Verificar puerto 5000 (Backend)
-Test-NetConnection -ComputerName localhost -Port 5000
-
-# Verificar puerto 3000 (Frontend)
-Test-NetConnection -ComputerName localhost -Port 3000
-
-# Si están ocupados, libéralos:
-Get-NetTCPConnection -LocalPort 5000 | Select-Object -First 1 | ForEach-Object {
-    Get-Process -Id $_.OwningProcess | Stop-Process -Force
-}
-```
-
----
-
-### Verificación de Requisitos
-
-Antes de ejecutar, verifica que tienes todo instalado:
-
-```powershell
-# Verificar .NET SDK 8.0
+# Verificar .NET
 dotnet --version
 
-# Verificar Node.js
-node --version
-
-# Verificar npm
-npm --version
-
-# Verificar SQL Server Express
+# Verificar SQL Server
 sqlcmd -S localhost\SQLEXPRESS -Q "SELECT @@VERSION"
 ```
 
----
+## 🚀 Instrucciones de Ejecución
 
-### Solución Rápida de Problemas Comunes
+### Opción 1: Ejecución Completa (Recomendado)
 
-| Problema | Solución |
-|----------|----------|
-| **Port 5000 en uso** | `Get-NetTCPConnection -LocalPort 5000 \| ForEach {Stop-Process -Id $_.OwningProcess}` |
-| **Port 3000 en uso** | `Get-NetTCPConnection -LocalPort 3000 \| ForEach {Stop-Process -Id $_.OwningProcess}` |
-| **Error de BD** | Reinicia SQL Server o ejecuta: `sqlcmd -S localhost\SQLEXPRESS -Q "DROP DATABASE OrderManagementDB"` |
-| **Frontend no compila** | Borra caché: `rm .vite dist -r; npm install; npm run dev` |
-| **Error CORS** | Verifica que frontend está en puerto 3000 |
-| **Token expirado** | Login nuevamente, tokens duran 60 minutos |
+```powershell
+# 1. Abre PowerShell como Administrador
+# 2. Navega a la carpeta del proyecto
+cd "C:\Users\User\OneDrive\Desktop\Crud de Inventarios con ASP.NET MVC"
 
----
+# 3. Ejecuta los scripts SQL (en orden)
+sqlcmd -S localhost\SQLEXPRESS -i "Base de Datos\01_Inventario.sql"
+sqlcmd -S localhost\SQLEXPRESS -i "Base de Datos\02_MOV_INVENTARIO.sql"
+sqlcmd -S localhost\SQLEXPRESS -d inventario -i "Base de Datos\03_CRUD_MOV_INVENTARIO.sql"
 
-## �📚 Documentación de API
+# 4. Restaura dependencias NuGet
+dotnet restore
 
-### Endpoints de Autenticación
+# 5. Compila el proyecto
+dotnet build
 
-#### Registrar Nuevo Usuario
-```http
-POST /api/auth/register
-Content-Type: application/json
-
-{
-  "username": "juan.perez",
-  "email": "juan@example.com",
-  "password": "SecurePass123!"
-}
-
-Respuesta:
-{
-  "success": true,
-  "message": "Usuario registrado exitosamente",
-  "token": "eyJhbGciOiJIUzI1NiIs...",
-  "user": {
-    "id": 2,
-    "username": "juan.perez",
-    "email": "juan@example.com",
-    "role": "Usuario"
-  }
-}
+# 6. Ejecuta la aplicación
+cd InventarioMVC.Presentation
+dotnet run
 ```
 
-#### Login
-```http
-POST /api/auth/login
-Content-Type: application/json
+### Opción 2: Ejecución Rápida (Scripts ya ejecutados)
 
-{
-  "username": "juan.perez",
-  "password": "SecurePass123!"
-}
-
-Respuesta: Igual que registrar
+```powershell
+# Si los scripts SQL ya fueron ejecutados anteriormente:
+cd "C:\Users\User\OneDrive\Desktop\Crud de Inventarios con ASP.NET MVC"
+dotnet restore
+dotnet build
+cd InventarioMVC.Presentation
+dotnet run
 ```
 
-### Endpoints de Gestión de Pedidos
+### Opción 3: Compilación y Ejecución Directa
 
-#### Obtener Pedidos del Usuario
-```http
-GET /api/orders
-Authorization: Bearer {token}
-
-Respuesta:
-{
-  "success": true,
-  "data": [
-    {
-      "id": 1,
-      "numeroPedido": "PED001",
-      "cliente": "Juan Perez",
-      "fecha": "2026-02-23",
-      "total": 150.50,
-      "estado": "Pendiente",
-      "description": "Descripción del pedido",
-      "items": [...]
-    }
-  ]
-}
+```powershell
+cd "C:\Users\User\OneDrive\Desktop\Crud de Inventarios con ASP.NET MVC"
+dotnet clean
+dotnet build
+cd InventarioMVC.Presentation
+dotnet run
 ```
 
-#### Crear Pedido
-```http
-POST /api/orders
-Authorization: Bearer {token}
-Content-Type: application/json
+### Opción 4: Ejecución desde Visual Studio 2022
 
-{
-  "numeroPedido": "PED001",
-  "description": "Descripción del pedido",
-  "items": [
-    {
-      "productName": "Producto 1",
-      "quantity": 2,
-      "unitPrice": 50.00
-    }
-  ]
-}
+#### Paso 1: Abrir el Proyecto
 
-Respuesta: Pedido creado con ID
+1. Abre **Visual Studio 2022**
+2. Selecciona **File → Open → Project/Solution**
+3. Navega a: `C:\Users\User\OneDrive\Desktop\Crud de Inventarios con ASP.NET MVC`
+4. Abre el archivo `InventarioMVC.sln`
+
+#### Paso 2: Restaurar Dependencias (Automático)
+
+Una vez abierto el proyecto, Visual Studio restaurará automáticamente los paquetes NuGet:
+- Verás un mensaje: **"Show package restore notification"**
+- Visual Studio descargará todas las dependencias automáticamente
+
+Si no aparece, usa el Gestor de Paquetes:
+- **Tools → NuGet Package Manager → Manage NuGet Packages for Solution**
+- Click en **Restore**
+
+#### Paso 3: Configurar Proyecto de Inicio
+
+1. En el **Explorador de Soluciones** (lado izquierdo)
+2. Click derecho en el proyecto **InventarioMVC.Presentation**
+3. Selecciona **Set as Startup Project**
+4. Verás que el proyecto ahora aparece en **negrita**
+
+#### Paso 4: Ejecutar la Aplicación
+
+**Opción A: Usando F5 (Con Depuración)**
+```
+Presiona: F5
 ```
 
-#### Actualizar Pedido
-```http
-PUT /api/orders/{id}
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-  "numeroPedido": "PED001",
-  "estado": "Entregado",
-  "description": "Descripción actualizada",
-  "items": [...]
-}
+**Opción B: Sin Depuración (Más rápido)**
+```
+Presiona: Ctrl + F5
 ```
 
-#### Eliminar Pedido
-```http
-DELETE /api/orders/{id}
-Authorization: Bearer {token}
+**Opción C: Usando el Botón de Reproducción**
+1. En la barra de herramientas, busca el botón de reproducción verde
+2. Asegúrate de que **InventarioMVC.Presentation** esté seleccionado en el dropdown
+3. Click en el botón de reproducción
+
+#### Paso 5: Esperar a que Cargue
+
+La aplicación abrirá automáticamente en tu navegador en:
+```
+https://localhost:7227  (HTTPS - Depuración)
+```
+o
+```
+http://localhost:5000   (HTTP - Producción)
 ```
 
----
+#### Usando Package Manager Console
 
-## 🗂️ Estructura del Proyecto
+Si prefieres ejecutar comandos directamente desde Visual Studio:
+
+```powershell
+# En Tools → NuGet Package Manager → Package Manager Console
+
+# Restaurar paquetes
+dotnet restore
+
+# Compilar la solución
+dotnet build
+
+# Ejecutar el proyecto específico
+dotnet run --project InventarioMVC.Presentation/InventarioMVC.Presentation.csproj
+```
+
+#### Atajos Útiles en Visual Studio
+
+| Atajo | Función |
+|-------|---------|
+| **F5** | Ejecutar con depuración |
+| **Ctrl + F5** | Ejecutar sin depuración |
+| **Ctrl + Shift + B** | Compilar toda la solución |
+| **Ctrl + K, Ctrl + C** | Comentar código |
+| **Ctrl + K, Ctrl + U** | Descomentar código |
+| **F7** | Ir a código behind de una vista |
+
+#### Solución de Problemas en Visual Studio
+
+**"El puerto ya está en uso"**
+- Cierra la aplicación anterior: `Ctrl + Alt + Delete → Procesos → dotnet.exe`
+- O ejecuta en diferente puerto en `appsettings.json`
+
+**"No se puede compilar la solución"**
+- **Build → Clean Solution**
+- **Build → Rebuild Solution**
+- Cierra y reabre Visual Studio
+
+**"Paquetes no se restauraron"**
+- **Tools → NuGet Package Manager → Restore NuGet Packages**
+- O ejecuta: `dotnet restore` en Package Manager Console
+
+## 🌐 Acceder a la Aplicación
+
+Una vez ejecutada, la aplicación estará disponible en:
 
 ```
-OrderManagement/
-├── backend/
-│   ├── OrderManagementAPI.Api/
-│   │   ├── Controllers/          # Endpoints de API
-│   │   ├── Middleware/           # Middleware personalizado
-│   │   ├── Authorization/        # Atributos de autorización
-│   │   ├── Extensions/           # Inyección de dependencias
-│   │   └── Program.cs            # Configuración de aplicación
-│   ├── OrderManagementAPI.Application/
-│   │   ├── Services/             # Lógica de negocio
-│   │   ├── DTOs/                 # Objetos de transferencia de datos
-│   │   ├── Validators/           # Reglas de validación
-│   │   └── Interfaces/           # Contratos de servicios
-│   ├── OrderManagementAPI.Domain/
-│   │   ├── Entities/             # Modelos de dominio
-│   │   └── Interfaces/           # Contratos de repositorio
-│   ├── OrderManagementAPI.Infrastructure/
-│   │   ├── Data/                 # Contexto de base de datos
-│   │   ├── Services/             # Servicios de infraestructura
-│   │   ├── Security/             # Hash de contraseñas
-│   │   └── Migrations/           # Migraciones de BD
-│   └── OrderManagementAPI.Tests/
-│       ├── Services/             # Tests de servicios
-│       └── Security/             # Tests de seguridad
+http://localhost:5000
+```
+
+### Credenciales de Prueba
+
+| Rol | Usuario | Contraseña |
+|-----|---------|-----------|
+| **Administrador** | `admin@empresa.com` | `Admin@123456` |
+| **Gerente** | `manager@empresa.com` | `Manager@123456` |
+| **Usuario** | `user@empresa.com` | `User@123456` |
+
+## 📊 Operaciones Disponibles
+
+### 1️⃣ Consultar (READ)
+- Ver lista completa de movimientos
+- Buscar por número de documento
+- Filtrar por tipo de movimiento (Entrada, Salida, Traslado)
+- Paginación de resultados
+
+### 2️⃣ Crear (CREATE)
+- Registrar nuevo movimiento
+- Validación automática de datos
+- Mensajes de confirmación
+
+### 3️⃣ Actualizar (UPDATE)
+- Editar movimiento existente
+- Cambiar cantidad, fechas y referencias
+- Confirmación antes de guardar
+
+### 4️⃣ Eliminar (DELETE)
+- Remover movimiento de la BD
+- Confirmación de eliminación
+- Historial en logs
+
+## 🏗️ Estructura del Proyecto
+
+```
+Crud de Inventarios con ASP.NET MVC/
 │
-├── frontend/
-│   ├── src/
-│   │   ├── components/           # Componentes React
-│   │   ├── pages/                # Componentes de página
-│   │   ├── services/             # Servicios de API
-│   │   ├── contexts/             # Contextos de React
-│   │   ├── types/                # Tipos TypeScript
-│   │   ├── styles/               # Archivos CSS
-│   │   └── App.tsx               # Componente principal
-│   ├── public/                   # Assets estáticos
-│   ├── index.html                # Punto de entrada HTML
-│   └── vite.config.ts            # Configuración de Vite
-│
-└── README.md                      # Este archivo
+├── 📁 InventarioMVC.Domain/          # Entidades y contratos
+├── 📁 InventarioMVC.Application/     # Servicios y lógica de negocio
+├── 📁 InventarioMVC.Infrastructure/  # Acceso a datos (Repositories)
+├── 📁 InventarioMVC.Presentation/    # Controladores y Vistas
+├── 📁 InventarioMVC.Common/          # Utilidades compartidas
+├── 📁 Base de Datos/                 # Scripts SQL
+│   ├── 01_Inventario.sql
+│   ├── 02_MOV_INVENTARIO.sql
+│   └── 03_CRUD_MOV_INVENTARIO.sql
+├── README.md                         # Este archivo
+└── ...
 ```
 
----
+## 🔧 Tecnologías Utilizadas
 
-## 🔑 Características Principales
+- **Framework**: ASP.NET Core 8.0 MVC
+- **Lenguaje**: C# (.NET 8.0)
+- **ORM**: Entity Framework Core 8.0
+- **Base de Datos**: SQL Server Express
+- **Validación**: FluentValidation 11.8.0
+- **Logging**: Serilog 8.0.0
+- **Frontend**: Razor Views con Bootstrap 5.3.0
 
-### Autenticación y Autorización
-- Autenticación basada en JWT Bearer tokens
-- Expiración automática de tokens (60 minutos)
-- Hash seguro de contraseñas con bcrypt
-- Control de acceso basado en roles
+## 📝 Características
 
-### Gestión de Pedidos
-- Crear, leer, actualizar y eliminar pedidos
-- Seguimiento del estado del pedido (Pendiente, Entregado)
-- Gestión de artículos de pedido con precios
-- Generación de números de pedido
-- Aislamiento de pedidos por usuario
+✅ Arquitectura de capas (5 capas)  
+✅ Patrones de diseño (Repository, Unit of Work, Service Layer, DTO, Mapper)  
+✅ Principios SOLID implementados  
+✅ Validación robusta con FluentValidation  
+✅ Logging estructurado con Serilog  
+✅ Interfaz profesional con Bootstrap 5  
+✅ Protección contra SQL Injection  
+✅ Autenticación y autorización basada en roles  
+✅ Paginación y búsqueda avanzada  
 
-### Validación de Datos
-- Reglas FluentValidation en backend
-- Validación en tiempo real en frontend
-- Mensajes de error comprehensivos
-- Validación de solicitud/respuesta
+## ❌ Solución de Problemas
 
-### Manejo de Errores
-- Middleware global de excepciones
-- Respuestas de error estructuradas
-- Logging detallado con Serilog
-- Mensajes de error amigables para el usuario
-
-### Seguridad
-- Configuración de CORS para localhost:3000
-- Lista para HTTPS (desarrollo: HTTP)
-- Prevención de inyección SQL (consultas parametrizadas)
-- Protección contra XSS (sanitización de contenido)
-- Soporte para tokens CSRF
-
----
-
-## 📝 Testing
-
-### Tests Backend
+### "El puerto 5000 ya está en uso"
 ```powershell
-cd backend
+# Ver qué está usando el puerto
+Get-NetTCPConnection -LocalPort 5000
 
-# Ejecutar todos los tests
-dotnet test
+# Detener el proceso (si es necesario)
+Stop-Process -Name "dotnet" -Force
 
-# Ejecutar con cobertura
-dotnet test /p:CollectCoverageFlag=true
+# Ejecutar en Puerto diferente
+dotnet run --urls "http://localhost:5001"
 ```
 
-### Tests Frontend
-```powershell
-cd frontend
-
-# Ejecutar tests
-npm run test
-
-# Ejecutar tests con cobertura
-npm run test:coverage
-
-# Ejecutar tests en modo watch
-npm run test:watch
-```
-
----
-
-## 🚀 Deployment
-
-### Deployment Backend
-1. Publicar la aplicación: `dotnet publish -c Release`
-2. Configurar SQL Server en el entorno destino
-3. Actualizar cadena de conexión en `appsettings.json`
-4. Establecer variables de entorno para secreto JWT
-5. Desplegar en IIS, Azure App Service o contenedor Docker
-
-### Deployment Frontend
-1. Compilar la aplicación: `npm run build`
-2. Subir carpeta `dist` a hosting estático (Netlify, Vercel, GitHub Pages)
-3. O servir con cualquier servidor HTTP configurado para SPA routing
-
----
-
-## 📊 Esquema de Base de Datos
-
-### Tabla Users
-```sql
-CREATE TABLE Users (
-    Id INT PRIMARY KEY IDENTITY,
-    Username NVARCHAR(50) UNIQUE NOT NULL,
-    Email NVARCHAR(100) UNIQUE NOT NULL,
-    PasswordHash NVARCHAR(255) NOT NULL,
-    Role NVARCHAR(20) DEFAULT 'Usuario',
-    IsActive BIT DEFAULT 1,
-    CreatedAt DATETIME DEFAULT GETDATE()
-);
-```
-
-### Tabla Orders
-```sql
-CREATE TABLE Orders (
-    Id INT PRIMARY KEY IDENTITY,
-    NumeroPedido NVARCHAR(50) NOT NULL,
-    UserId INT FOREIGN KEY REFERENCES Users(Id),
-    Fecha DATETIME DEFAULT GETDATE(),
-    Total DECIMAL(10, 2) NOT NULL,
-    Estado NVARCHAR(50) DEFAULT 'Pendiente',
-    Description NVARCHAR(MAX)
-);
-```
-
-### Tabla OrderItems
-```sql
-CREATE TABLE OrderItems (
-    Id INT PRIMARY KEY IDENTITY,
-    OrderId INT FOREIGN KEY REFERENCES Orders(Id),
-    ProductName NVARCHAR(100) NOT NULL,
-    Quantity INT NOT NULL,
-    UnitPrice DECIMAL(10, 2) NOT NULL,
-    TotalPrice DECIMAL(10, 2) NOT NULL
-);
-```
-
----
-
-## 🐛 Solución de Problemas
-
-### Problemas Backend
-
-**Problema:** Puerto 5000 ya está en uso
-```powershell
-# Terminar proceso en puerto 5000
-Get-Process | Where-Object {$_.Id -eq (Get-NetTCPConnection -LocalPort 5000).OwningProcess} | Stop-Process
-```
-
-**Problema:** Conexión a base de datos fallida
+### "No se puede conectar a la BD"
 ```powershell
 # Verificar que SQL Server está ejecutándose
-sqlcmd -S localhost\SQLEXPRESS -Q "SELECT @@VERSION"
+Get-Service -Name "MSSQLSERVER" | Start-Service
+
+# Verificar que la BD existe
+sqlcmd -S localhost\SQLEXPRESS -Q "SELECT name FROM sys.databases WHERE name='inventario'"
 ```
 
-**Problema:** Token JWT inválido
-- Asegurarse de que el token es reciente (no expirado)
-- Verificar formato del encabezado de autorización: `Bearer {token}`
-- Verificar que el secreto JWT está configurado correctamente
-
-### Problemas Frontend
-
-**Problema:** No se puede conectar a backend
-- Verificar que backend se está ejecutando en puerto 5000
-- Verificar configuración de CORS en Program.cs
-- Asegurarse de que API_BASE_URL es correcto
-
-**Problema:** Errores de compilación con Vite
+### "Archivo en uso - No se puede compilar"
 ```powershell
-# Limpiar caché y reinstalar
-npm cache clean --force
-rm -r node_modules
-npm install
-npm run dev
+# Detener todos los procesos dotnet
+Stop-Process -Name "dotnet" -Force
+
+# Limpiar y recompilar
+dotnet clean
+dotnet build
 ```
 
----
+## 📚 Archivos Importantes
 
-## 📞 Soporte
+- **[Program.cs](InventarioMVC.Presentation/Program.cs)** - Configuración de la aplicación
+- **[appsettings.json](InventarioMVC.Presentation/appsettings.json)** - Configuración de BD y logging
+- **[MovInventarioController.cs](InventarioMVC.Presentation/Controllers/MovInventarioController.cs)** - Controlador principal
+- **[Index.cshtml](InventarioMVC.Presentation/Views/MovInventario/Index.cshtml)** - Vista principal
 
-Para problemas, preguntas o contribuciones:
-1. Consulta la documentación existente en `/backend/README.md` y `/frontend/README.md`
-2. Revisa los mensajes de error y logs
-3. Verifica el estado de migraciones de base de datos
-4. Verifica la configuración del entorno
+## 🔐 Seguridad
 
----
+- ✅ Validación en cliente y servidor
+- ✅ Protección CSRF en formularios
+- ✅ Consultas parametrizadas (sin SQL Injection)
+- ✅ Manejo seguro de excepciones
+- ✅ Logging de operaciones
 
-## 📄 Licencia
+## 📞 Contacto y Soporte
 
-Este proyecto se proporciona tal cual para propósitos educativos y profesionales.
-
----
-
-## ✨ Características Destacadas
-
-- 🔐 **Seguridad Empresarial:** JWT + Control de acceso basado en roles
-- 📊 **Arquitectura Limpia:** Principios de diseño dirigido por dominio
-- 🧪 **Testing Comprehensivo:** Tests unitarios e integración
-- 📚 **Bien Documentado:** Comentarios extensos y archivos README
-- 🎨 **UI Moderna:** Diseño responsivo con estilos profesionales
-- ⚡ **Rendimiento:** Consultas optimizadas y gestión de estado eficiente
-- 🔄 **Resiliencia:** Mecanismos de reintentos y manejo de errores
-- 📱 **Responsivo:** Funciona en escritorio, tablet y dispositivos móviles
+**Versión:** 1.0.0  
+**Fecha:** 1 de marzo de 2026  
+**Empresa:** Sistema de Gestión de Inventario
 
 ---
 
-**Última Actualización:** 23 de febrero de 2026
-
+© 2026 Sistema de Gestión de Inventario

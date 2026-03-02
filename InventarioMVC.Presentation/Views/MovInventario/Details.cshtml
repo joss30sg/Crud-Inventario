@@ -1,0 +1,78 @@
+@model InventarioMVC.Application.DTOs.MostrarMovInventarioDTO
+
+@{
+    ViewData["Title"] = "Detalles del Movimiento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row mb-4">
+    <div class="col">
+        <h2><i class="fas fa-eye"></i> Detalles del Movimiento</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">Información General</div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Documento:</dt>
+                    <dd class="col-sm-8"><strong>@Model.NroDocumento</strong></dd>
+
+                    <dt class="col-sm-4">Producto:</dt>
+                    <dd class="col-sm-8"><strong>@Model.CodItem2</strong></dd>
+
+                    <dt class="col-sm-4">Tipo Movimiento:</dt>
+                    <dd class="col-sm-8">
+                        @if (Model.TipoMovimiento == "EN")
+                        {
+                            <span class="badge bg-success">@Model.DescripcionTipo</span>
+                        }
+                        else if (Model.TipoMovimiento == "SA")
+                        {
+                            <span class="badge bg-danger">@Model.DescripcionTipo</span>
+                        }
+                        else if (Model.TipoMovimiento == "TR")
+                        {
+                            <span class="badge bg-warning text-dark">@Model.DescripcionTipo</span>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-4">Tipo Documento:</dt>
+                    <dd class="col-sm-8">@*@Model.DescripcionDocumento*@ (@Model.TipoDocumento)</dd>
+
+                    <dt class="col-sm-4">Cantidad:</dt>
+                    <dd class="col-sm-8">@Model.Cantidad.ToString("F2")</dd>
+
+                    <dt class="col-sm-4">Almacén Origen:</dt>
+                    <dd class="col-sm-8">@Model.AlmacenVenta</dd>
+
+                    @*<dt class="col-sm-4">Comprador:</dt>
+                    <dd class="col-sm-8">@(Model.Comprador ?? "-")</dd>*@
+
+                    <dt class="col-sm-4">Fecha Movimiento:</dt>
+                    <dd class="col-sm-8">@Model.FechaMovimiento.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                    <dt class="col-sm-4">Compañía:</dt>
+                    <dd class="col-sm-8">@Model.CodCia / @Model.CompaniaVenta3</dd>
+                </dl>
+            </div>
+        </div>
+
+
+            </div>
+        }
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">Acciones</div>
+            <div class="card-body">
+                <a href="@Url.Action("Index")" class="btn btn-secondary w-100">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

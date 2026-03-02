@@ -21,10 +21,8 @@ bin/
 obj/
 dist/
 build/
-backend/bin/
-backend/obj/
-backend/.vs/
-backend/Properties/launchSettings.json
+.vs/
+.vscode/
 
 # NuGet
 *.nupkg

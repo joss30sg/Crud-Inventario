@@ -1,0 +1,29 @@
+@* Access Denied View *@
+@{
+    ViewData["Title"] = "Acceso Denegado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">
+                    <i class="fas fa-ban"></i> Acceso Denegado
+                </h4>
+                <hr>
+                <p>No tienes permisos para acceder a este recurso.</p>
+                <p class="mb-0">Por favor, contacta con un administrador si consideras que esto es un error.</p>
+            </div>
+
+            <div class="mt-4">
+                <a href="/" class="btn btn-primary">
+                    <i class="fas fa-home"></i> Volver al Inicio
+                </a>
+                <a href="/Auth/Logout" class="btn btn-secondary" onclick="return confirm('¿Cerrar sesión?')">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
