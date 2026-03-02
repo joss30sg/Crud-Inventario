@@ -29,7 +29,7 @@ namespace InventarioMVC.Application.Mappers
                 DocRef3 = dto.DocRef3,
                 DocRef4 = dto.DocRef4,
                 DocRef5 = dto.DocRef5,
-                FechaTransaccion = dto.FechaMovimiento ?? DateTime.Now
+                FechaTransaccion = dto.FechaTransaccion
             };
         }
 
@@ -53,7 +53,7 @@ namespace InventarioMVC.Application.Mappers
                 DocRef3 = dto.DocRef3,
                 DocRef4 = dto.DocRef4,
                 DocRef5 = dto.DocRef5,
-                FechaTransaccion = dto.FechaMovimiento ?? DateTime.Now
+                FechaTransaccion = dto.FechaTransaccion ?? DateTime.Now
             };
         }
 

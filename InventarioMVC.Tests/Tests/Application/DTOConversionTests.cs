@@ -49,8 +49,8 @@ namespace InventarioMVC.Tests.Application.Services
                 TipoDocumento = dto.TipoDocumento,
                 NroDocumento = dto.NroDocumento,
                 CodItem2 = dto.CodItem2,
-                Cantidad = (int)(dto.Cantidad ?? 0),
-                FechaTransaccion = dto.FechaTransaccion ?? DateTime.Now,
+                Cantidad = dto.Cantidad,
+                FechaTransaccion = dto.FechaTransaccion,
                 Proveedor = dto.Proveedor
             };
 

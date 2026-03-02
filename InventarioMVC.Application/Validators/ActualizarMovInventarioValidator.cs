@@ -25,8 +25,8 @@ namespace InventarioMVC.Application.Validators
                 .WithMessage("El almacén destino no puede exceder 50 caracteres");
 
             // Fecha de Movimiento (opcional)
-            RuleFor(x => x.FechaMovimiento)
-                .LessThanOrEqualTo(DateTime.Now).When(x => x.FechaMovimiento.HasValue)
+            RuleFor(x => x.FechaTransaccion)
+                .LessThanOrEqualTo(DateTime.Now).When(x => x.FechaTransaccion.HasValue)
                 .WithMessage("La fecha no puede ser en el futuro");
         }
     }

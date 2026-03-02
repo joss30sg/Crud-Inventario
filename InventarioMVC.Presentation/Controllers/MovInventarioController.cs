@@ -170,7 +170,7 @@ namespace InventarioMVC.Presentation.Controllers
                     DocRef3 = movimiento.DocRef3,
                     DocRef4 = movimiento.DocRef4,
                     DocRef5 = movimiento.DocRef5,
-                    FechaMovimiento = movimiento.FechaMovimiento
+                    FechaTransaccion = movimiento.FechaMovimiento
                 };
 
                 CargarDatosParaVista();

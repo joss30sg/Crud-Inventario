@@ -21,6 +21,6 @@ namespace InventarioMVC.Application.DTOs
         public string? DocRef3 { get; set; }
         public string? DocRef4 { get; set; }
         public string? DocRef5 { get; set; }
-        public DateTime? FechaMovimiento { get; set; }
+        public DateTime? FechaTransaccion { get; set; }
     }
 }
