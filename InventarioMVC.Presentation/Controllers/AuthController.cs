@@ -46,7 +46,16 @@ namespace InventarioMVC.Presentation.Controllers
                 await HttpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(claimsIdentity), authProperties);
 
                 _logger.LogInformation($"Usuario {email} inició sesión correctamente");
-                return RedirectToAction("Index", "MovInventario");
+
+                // Esperar entre 30 y 90 segundos de forma aleatoria
+                var random = new Random();
+                int waitTime = random.Next(30000, 91000); // Milisegundos
+                await Task.Delay(waitTime);
+
+                // Cerrar sesión y retornar a login
+                await HttpContext.SignOutAsync("CookieAuth");
+                _logger.LogInformation($"Usuario {email} fue desconectado automáticamente después de {waitTime / 1000} segundos");
+                return RedirectToAction("Login", "Auth");
             }
 
             _logger.LogWarning($"Intento de login fallido para usuario {email}");
