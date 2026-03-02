@@ -191,10 +191,10 @@
                                 <small class="text-muted">@item.AlmacenVenta</small>
                             </td>
                             <td class="text-end">
-                                <strong>@item.Cantidad.ToString("N2")</strong>
+                                <strong>@item.Cantidad.ToString("F0")</strong>
                             </td>
                             <td>
-                                <small>@item.FechaMovimiento.ToString("dd/MMM/yyyy")</small>
+                                <small>@item.FechaMovimiento.ToString("dd/MMM/yyyy").ToLower().Replace(".", "")</small>
                             </td>
                             <td class="text-center">
                                 <div class="d-flex gap-2 justify-content-center flex-wrap">
