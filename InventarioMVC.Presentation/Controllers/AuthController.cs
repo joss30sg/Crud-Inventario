@@ -36,7 +36,6 @@ namespace InventarioMVC.Presentation.Controllers
 
         /// <summary>
         /// Procesa el login del usuario. Valida las credenciales y crea una sesión autenticada.
-        /// Después de un tiempo aleatorio entre 30 y 90 segundos, cierra la sesión automáticamente.
         /// </summary>
         /// <param name="email">Email del usuario.</param>
         /// <param name="password">Contraseña del usuario.</param>
@@ -64,16 +63,7 @@ namespace InventarioMVC.Presentation.Controllers
                 await HttpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(claimsIdentity), authProperties);
 
                 _logger.LogInformation($"Usuario {email} inició sesión correctamente");
-
-                // Esperar entre 30 y 90 segundos de forma aleatoria
-                var random = new Random();
-                int waitTime = random.Next(30000, 91000); // Milisegundos
-                await Task.Delay(waitTime);
-
-                // Cerrar sesión y retornar a login
-                await HttpContext.SignOutAsync("CookieAuth");
-                _logger.LogInformation($"Usuario {email} fue desconectado automáticamente después de {waitTime / 1000} segundos");
-                return RedirectToAction("Login", "Auth");
+                return RedirectToAction("Index", "MovInventario");
             }
 
             _logger.LogWarning($"Intento de login fallido para usuario {email}");
